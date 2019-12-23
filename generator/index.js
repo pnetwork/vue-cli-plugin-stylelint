@@ -35,7 +35,7 @@ module.exports = (api, options = {}) => {
     if (typeof config === 'string') {
       if (config === 'stylelint-config-standard') {
         Object.assign(pkg.devDependencies, {
-          'stylelint-config-standard': '^18.2.0',
+          'stylelint-config-standard': '^19.0.0',
         });
       } else if (config === 'stylelint-config-primer') {
         Object.assign(pkg.devDependencies, {
