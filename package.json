@@ -1,6 +1,6 @@
 {
   "name": "@pentium/vue-cli-plugin-stylelint",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "stylelint plugin for vue-cli",
   "main": "index.js",
   "scripts": {
