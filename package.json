@@ -4,7 +4,7 @@
   "description": "stylelint plugin for vue-cli",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./**/*.js ./*.js",
+    "lint": "eslint *.js __tests__/**/*.js generator/**/*.js",
     "jest": "cross-env VUE_CLI_TEST=true jest --env=node",
     "test": "npm run lint && npm run jest"
   },
@@ -27,20 +27,20 @@
   },
   "homepage": "https://github.com/ascendancyy/vue-cli-plugin-stylelint#readme",
   "dependencies": {
-    "chalk": "^3.0.0",
-    "inquirer": "^7.0.1",
+    "chalk": "^4.1.0",
+    "inquirer": "^7.3.3",
     "javascript-stringify": "^2.0.1",
     "micromatch": "^4.0.2",
-    "stylelint": "^12.0.0",
+    "stylelint": "^13.6.1",
     "stylelint-codeframe-formatter": "^1.0.4",
-    "stylelint-webpack-plugin": "^1.1.2"
+    "stylelint-webpack-plugin": "^2.1.0"
   },
   "devDependencies": {
-    "@ascendancyy/eslint-config-eva": "^2.0.2",
-    "@vue/cli": "^4.1.1",
-    "@vue/cli-test-utils": "^4.1.1",
-    "cross-env": "^6.0.3",
-    "eslint": "^4.19.1",
-    "jest": "^24.9.0"
+    "@ascendancyy/eslint-config-eva": "^3.1.1",
+    "@vue/cli": "^4.5.4",
+    "@vue/cli-test-utils": "^4.5.4",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.7.0",
+    "jest": "^26.4.2"
   }
 }
