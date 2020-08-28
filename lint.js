@@ -3,7 +3,7 @@
     "props": true,
     "ignorePropertyModificationsFor": ["args"]
   }],
-  no-console: "off"
+  no-console: "off",
 */
 
 const { execSync } = require('child_process');
@@ -11,14 +11,9 @@ const chalk = require('chalk');
 const stylelint = require('stylelint');
 const CodeframeFormatter = require('stylelint-codeframe-formatter');
 
-
 // helpers ==========================
 function camelize(str) {
-  return str.replace(/-(\w)/g, (_, c) => (
-    c ?
-      c.toUpperCase() :
-      ''
-  ));
+  return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''));
 }
 
 function normalizeConfig(args) {
@@ -33,16 +28,11 @@ function normalizeConfig(args) {
 
 function format(label, msg) {
   let lines = msg.split('\n');
-  lines = lines.map((line, idx) => (
-    idx === 0 ?
-      `${label} ${line}` :
-      line.padStart(chalk.reset(label).length)
-  ));
+  lines = lines.map((line, idx) => idx === 0 ? `${label} ${line}` : line.padStart(chalk.reset(label).length));
 
   return lines.join('\n');
 }
 // ==================================
-
 
 module.exports = async function lint(api, args = {}, pluginOptions = {}) {
   if (args.options) {
@@ -60,9 +50,9 @@ module.exports = async function lint(api, args = {}, pluginOptions = {}) {
 
   const { formatter } = args;
   if (
-    formatter &&
-    typeof formatter === 'string' &&
-    !(['json', 'string', 'verbose'].includes(formatter))
+    formatter
+    && typeof formatter === 'string'
+    && !['json', 'string', 'verbose'].includes(formatter)
   ) {
     try {
       // eslint-disable-next-line global-require, import/no-dynamic-require
@@ -70,20 +60,24 @@ module.exports = async function lint(api, args = {}, pluginOptions = {}) {
     } catch (e) {
       delete args.formatter;
       if (typeof pluginOptions.formatter !== 'function') {
-        console.log(format(
-          chalk`{bgYellow.black  WARN }`,
-          chalk`${e.toString()}\n{yellow Invalid formatter}`,
-        ));
+        console.log(
+          format(
+            chalk`{bgYellow.black  WARN }`,
+            chalk`${e.toString()}\n{yellow Invalid formatter}`,
+          ),
+        );
       }
     }
   }
 
-  const options = Object.assign({}, {
+  const options = {
     configBasedir: cwd,
     fix: true,
     files,
     formatter: CodeframeFormatter,
-  }, pluginOptions, normalizeConfig(args));
+    ...pluginOptions,
+    ...normalizeConfig(args),
+  };
 
   try {
     const { errored, results, output: formattedOutput } = await stylelint.lint(options);
@@ -93,15 +87,17 @@ module.exports = async function lint(api, args = {}, pluginOptions = {}) {
           if (result.ignored) {
             return null;
           }
-          return result.warnings.some(warning => warning.severity === 'warning');
+          return result.warnings.some((warning) => warning.severity === 'warning');
         });
         if (hasWarnings) {
           console.log(formattedOutput);
         } else {
-          console.log(format(
-            chalk`{bgGreen.black  DONE }`,
-            `No stylelint errors found!${options.fix ? chalk` {blue (autofix enabled)}` : ''}`,
-          ));
+          console.log(
+            format(
+              chalk`{bgGreen.black  DONE }`,
+              `No stylelint errors found!${options.fix ? chalk` {blue (autofix enabled)}` : ''}`,
+            ),
+          );
         }
       }
     } else {
@@ -109,10 +105,7 @@ module.exports = async function lint(api, args = {}, pluginOptions = {}) {
       process.exit(1);
     }
   } catch (err) {
-    console.log(format(
-      chalk`{bgRed.black  ERROR }`,
-      err.stack.slice(' Error:'.length),
-    ));
+    console.log(format(chalk`{bgRed.black  ERROR }`, err.stack.slice(' Error:'.length)));
     process.exit(1);
   }
 };

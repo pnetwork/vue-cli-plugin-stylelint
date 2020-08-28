@@ -10,11 +10,12 @@ module.exports = (api, projectOptions) => {
       /* eslint-disable indent */
       webpackConfig
         .plugin('stylelint')
-          .use(StyleLintPlugin, [Object.assign({
-            failOnError: lintStyleOnBuild === 'error',
+          .use(StyleLintPlugin, [{
+ failOnError: lintStyleOnBuild === 'error',
             files: ['src/**/*.{vue,htm,html,css,sss,less,scss}'],
             formatter: CodeframeFormatter,
-          }, stylelint)])
+...stylelint,
+}])
           .end()
         .plugin('friendly-errors')
           .tap(([options]) => {
